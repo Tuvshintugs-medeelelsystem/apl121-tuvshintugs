@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="electricity_cost"/>
+        <attribute name="authors" value="user"/>
+        <attribute name="about" value="Annual electricity cost with tiered tariff (MNT)"/>
+        <attribute name="saved" value="2026-10-27 08:54:05 PM"/>
+        <attribute name="created" value="QWNlcjtMQzsyMDI2LTEwLTI3OzA2OjQwOjIzIFBNOzE4MDE="/>
+        <attribute name="edited" value="QWNlcjtMQzsyMDI2LTEwLTI3OzA4OjU0OjA1IFBNOzM7MTkxOA=="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="month" type="Integer" array="False" size=""/>
+            <declare name="maxMonth" type="Integer" array="False" size=""/>
+            <declare name="kwh" type="Real" array="False" size=""/>
+            <declare name="cost" type="Real" array="False" size=""/>
+            <declare name="totalCost" type="Real" array="False" size=""/>
+            <declare name="maxCost" type="Real" array="False" size=""/>
+            <assign variable="maxMonth" expression="1"/>
+            <assign variable="totalCost" expression="0"/>
+            <assign variable="maxCost" expression="0"/>
+            <assign variable="month" expression="1"/>
+            <while expression="month &lt;= 12">
+                <output expression="&quot;&#1089;&#1072;&#1088;&#1099;&#1085; &#1094;&#1072;&#1093;&#1080;&#1083;&#1075;&#1072;&#1072;&#1085;&#1099; &#1093;&#1101;&#1088;&#1101;&#1075;&#1083;&#1101;&#1101;&#1075;&#1101;&#1101; &#1086;&#1088;&#1091;&#1091;&#1083;&#1085;&#1072; &#1091;&#1091; &quot; &amp; month &amp; &quot; (kWh): &quot;" newline="True"/>
+                <input variable="kwh"/>
+                <if expression="kwh &lt; 0">
+                    <then>
+                        <output expression="&quot;&#1072;&#1083;&#1076;&#1072;&#1072; &#1075;&#1072;&#1088;&#1089;&#1072;&#1085; &#1073;&#1072;&#1081;&#1085;&#1072;! &#1101;&#1077;&#1088;&#1101;&#1075; &#1090;&#1086;&#1086; &#1086;&#1088;&#1091;&#1091;&#1083;.&quot;" newline="True"/>
+                    </then>
+                    <else>
+                        <if expression="kwh &lt;= 150">
+                            <then>
+                                <assign variable="cost" expression="kwh * 120"/>
+                            </then>
+                            <else>
+                                <if expression="kwh &lt;= 300">
+                                    <then>
+                                        <assign variable="cost" expression="150 * 120 + (kwh - 150) * 180"/>
+                                    </then>
+                                    <else>
+                                        <assign variable="cost" expression="150 * 120 + 150 * 180 + (kwh - 300) * 250"/>
+                                    </else>
+                                </if>
+                            </else>
+                        </if>
+                        <output expression="&quot;Month &quot; &amp; month &amp; &quot;: &quot; &amp; kwh &amp; &quot; kWh, Cost = &quot; &amp; cost &amp; &quot; MNT&quot;" newline="True"/>
+                        <assign variable="totalCost" expression="totalCost + cost"/>
+                        <if expression="cost &gt; maxCost">
+                            <then>
+                                <assign variable="maxCost" expression="cost"/>
+                                <assign variable="maxMonth" expression="month"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <assign variable="month" expression="month + 1"/>
+                    </else>
+                </if>
+            </while>
+            <output expression="&quot;&#1085;&#1080;&#1081;&#1090; &#1079;&#1072;&#1088;&#1083;&#1072;&#1075;&#1072;: &quot; &amp; totalCost &amp; &quot; MNT&quot;" newline="True"/>
+            <output expression="&quot;&#1093;&#1072;&#1084;&#1075;&#1080;&#1081;&#1085; &#1080;&#1093; &#1079;&#1072;&#1088;&#1083;&#1072;&#1075;&#1072;: &#1089;&#1072;&#1088; &quot; &amp; maxMonth &amp; &quot;, &quot; &amp; maxCost &amp; &quot; MNT&quot;" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>

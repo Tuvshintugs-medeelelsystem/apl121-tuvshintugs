@@ -1,1 +1,0 @@
-# apl121-tuvshintugs
